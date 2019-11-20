@@ -45,6 +45,38 @@ namespace Proyecto_AcessoADatos.Models
 
         }
 
+        internal List<apuestas> RetrieveApuestas(decimal CuotaMin, decimal CuotaMax)
+        {
+            //Devuelve todos los registros
+            MySqlConnection con = Connect();
+            MySqlCommand command = con.CreateCommand();
+            command.CommandText = "select * from apuestas where Cuota > @A and Cuota < @A2";
+            command.Parameters.AddWithValue("@A", CuotaMin);
+            command.Parameters.AddWithValue("@A2", CuotaMax);
+
+            con.Open();
+            MySqlDataReader res = command.ExecuteReader();
+
+            apuestas a = null;
+            List<apuestas> apuesta = new List<apuestas>();
+
+            //Cada vez que ecuentra un objeto lo añade al list
+            //List<apuestas> apuesta = new List<apuestas>();
+
+            //Devolver objeto apuestas. Se devolvera un registro y lo añadira a la lista
+            if (res.Read())
+            {
+                a = new apuestas(res.GetInt32(0), res.GetDecimal(1), res.GetDecimal(2), res.GetString(3), res.GetInt32(4), res.GetInt32(5));
+                apuesta.Add(a);
+            }
+
+            con.Close();
+            return apuesta;
+
+
+
+        }
+
         internal apuestasDTO RetrieveDTO()
         {
             //Devuelve todos los registros

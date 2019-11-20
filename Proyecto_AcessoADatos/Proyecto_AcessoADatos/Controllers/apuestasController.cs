@@ -21,12 +21,13 @@ namespace Proyecto_AcessoADatos.Controllers
             return apuesta;
         }
 
-        public apuestas GetApuestas(string Email)
+        // GET: api/apuestas?CuotaMin=CuotaMin&CuotaMax=CuotaMax
+        public apuestas GetApuestas(decimal CuotaMin, decimal CuotaMax )
         {
             //Devuelve un array de eventos en formato JSON
             var repo = new apuestasRepository();
             /*List<apuestas> apuesta = repo.Retrieve();*/
-            apuestas apuesta = repo.Retrieve();
+            apuestas apuesta = repo.RetrieveApuestas(CuotaMin,CuotaMax);
             return apuesta;
         }
 
